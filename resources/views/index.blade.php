@@ -5,7 +5,7 @@
 
     <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Popular Games</h2>
 
-    <div class="popular-games text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-12 border-b border-gray-800 pb-16">
+    <div class="popular-games text-sm grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-12 border-b border-gray-800 pb-16">
 
         <div class="game mt-8">
             <div class="relative inline-block">
