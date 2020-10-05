@@ -13,9 +13,11 @@
                 <a href="#">
                     <img src="{{ Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']) }}" alt="game cover" class="hover:opacity-75 transition ease-in-out duration-150">
                 </a>
+                @if (isset($game['rating']))
                 <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-800 rounded-full" style="right: -20px; bottom: -20px;">
-                    <div class="font-semibold text-xs flex justify-center items-center h-full">80%</div>
+                    <div class="font-semibold text-xs flex justify-center items-center h-full">{{ round($game['rating']) . '%' }}</div>
                 </div>
+                @endif
             </div>
             <a href="#" class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">{{ $game['name'] }}</a>
             <div class="text-gray-400 mt-1">
@@ -38,59 +40,33 @@
 
             <div class="recently-reviewed-container space-y-12 mt-8">
 
+                @foreach ($recentlyReviewed as $game)
                 <div class="game bg-gray-800 rounded-lg shadow-md flex px-6 py-6">
                     <div class="relative flex-none">
                         <a href="#">
-                            <img src="/ff7.jpg" alt="game cover" class="w-48 hover:opacity-75 transition ease-in-out duration-150">
+                            <img src="{{ Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']) }}" alt="game cover" class="w-48 hover:opacity-75 transition ease-in-out duration-150">
                         </a>
+                        @if (isset($game['rating']))
                         <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-900 rounded-full" style="right: -20px; bottom: -20px;">
-                            <div class="font-semibold text-xs flex justify-center items-center h-full">80%</div>
+                            <div class="font-semibold text-xs flex justify-center items-center h-full">{{ round($game['rating']) . '%' }}</div>
                         </div>
+                        @endif
                     </div>
                     <div class="ml-12">
-                        <a href="#" class="block text-lg font-semibold leading-tight hover:text-gray-400 mt-4">Final Fantasy 7 Remake</a>
-                        <div class="text-gray-400 mt-1">Playstation 4</div>
+                        <a href="#" class="block text-lg font-semibold leading-tight hover:text-gray-400 mt-4">{{ $game['name'] }}</a>
+                        <div class="text-gray-400 mt-1">
+                            @foreach ($game['platforms'] as $platform)
+                            @if (array_key_exists('abbreviation', $platform))
+                            {{ $platform['abbreviation'] }},
+                            @endif
+                            @endforeach
+                        </div>
                         <p class="mt-6 text-gray-400 hidden md:block">
-                            Final Fantasy VII Remake is a 2020 action role-playing game developed and published by Square Enix. It is the first in a planned series of games remaking the 1997 PlayStation game Final Fantasy VII. Set in the dystopian cyberpunk metropolis of Midgar, it puts players in the role of a mercenary named Cloud Strife.
+                            {{ $game['summary'] }}
                         </p>
                     </div>
                 </div>
-
-                <div class="game bg-gray-800 rounded-lg shadow-md flex px-6 py-6">
-                    <div class="relative flex-none">
-                        <a href="#">
-                            <img src="/ff7.jpg" alt="game cover" class="w-48 hover:opacity-75 transition ease-in-out duration-150">
-                        </a>
-                        <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-900 rounded-full" style="right: -20px; bottom: -20px;">
-                            <div class="font-semibold text-xs flex justify-center items-center h-full">80%</div>
-                        </div>
-                    </div>
-                    <div class="ml-12">
-                        <a href="#" class="block text-lg font-semibold leading-tight hover:text-gray-400 mt-4">Final Fantasy 7 Remake</a>
-                        <div class="text-gray-400 mt-1">Playstation 4</div>
-                        <p class="mt-6 text-gray-400 hidden md:block">
-                            Final Fantasy VII Remake is a 2020 action role-playing game developed and published by Square Enix. It is the first in a planned series of games remaking the 1997 PlayStation game Final Fantasy VII. Set in the dystopian cyberpunk metropolis of Midgar, it puts players in the role of a mercenary named Cloud Strife.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="game bg-gray-800 rounded-lg shadow-md flex px-6 py-6">
-                    <div class="relative flex-none">
-                        <a href="#">
-                            <img src="/ff7.jpg" alt="game cover" class="w-48 hover:opacity-75 transition ease-in-out duration-150">
-                        </a>
-                        <div class="absolute bottom-0 right-0 w-16 h-16 bg-gray-900 rounded-full" style="right: -20px; bottom: -20px;">
-                            <div class="font-semibold text-xs flex justify-center items-center h-full">80%</div>
-                        </div>
-                    </div>
-                    <div class="ml-12">
-                        <a href="#" class="block text-lg font-semibold leading-tight hover:text-gray-400 mt-4">Final Fantasy 7 Remake</a>
-                        <div class="text-gray-400 mt-1">Playstation 4</div>
-                        <p class="mt-6 text-gray-400 hidden md:block">
-                            Final Fantasy VII Remake is a 2020 action role-playing game developed and published by Square Enix. It is the first in a planned series of games remaking the 1997 PlayStation game Final Fantasy VII. Set in the dystopian cyberpunk metropolis of Midgar, it puts players in the role of a mercenary named Cloud Strife.
-                        </p>
-                    </div>
-                </div>
+                @endforeach
 
             </div>
 

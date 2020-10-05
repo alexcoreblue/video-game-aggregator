@@ -22,8 +22,8 @@ class GamesController extends Controller
                 "fields name, cover.url, first_release_date, platforms.abbreviation, rating;
                 where platforms = (48,49,130,6)
                 & (first_release_date >= {$before}
-                & first_release_date < {$after})
-                & rating != null;
+                & first_release_date < {$after}
+                & rating != null);
                 sort rating desc;
                 limit 12;",
                 'text/plain'
@@ -31,8 +31,27 @@ class GamesController extends Controller
             ->post('https://api.igdb.com/v4/games')->json();
 
         dump($highestRatedGames);
+
+        $current = Carbon::now()->timestamp;
+        $recentlyReviewed = Http::withHeaders(config('services.igdb'))
+            ->withBody(
+                "fields name, cover.url, first_release_date, platforms.abbreviation, rating, rating_count, summary;
+                where platforms = (48,49,130,6)
+                & (first_release_date >= {$before}
+                & first_release_date <= {$current}
+                & rating_count > 5
+                & rating != null);
+                sort rating desc;
+                limit 3;",
+                'text/plain'
+            )
+            ->post('https://api.igdb.com/v4/games')->json();
+
+        dump($recentlyReviewed);
+
         return view('index', [
-            'highestRatedGames' => $highestRatedGames
+            'highestRatedGames' => $highestRatedGames,
+            'recentlyReviewed' => $recentlyReviewed
         ]);
     }
 
