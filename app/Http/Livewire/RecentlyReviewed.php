@@ -20,7 +20,7 @@ class RecentlyReviewed extends Component
         $recentlyReviewedUnformatted = Cache::remember('recently-reviewed', 7, function () use ($before, $current) {
             return Http::withHeaders(config('services.igdb'))
                 ->withBody(
-                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating, rating_count, summary;
+                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating, rating_count, summary, slug;
                 where platforms = (48,49,130,6)
                 & (first_release_date >= {$before}
                 & first_release_date <= {$current}
@@ -34,6 +34,15 @@ class RecentlyReviewed extends Component
         });
 
         $this->recentlyReviewed = $this->formatForView($recentlyReviewedUnformatted);
+
+        collect($this->recentlyReviewed)->filter(function ($game) {
+            return $game['rating'];
+        })->each(function ($game) {
+            $this->emit('reviewGameWithRatingAdded', [
+                'slug' => 'review_'.$game['slug'],
+                'rating' => $game['rating'] / 100
+            ]);
+        });
     }
 
     public function render()
@@ -46,7 +55,7 @@ class RecentlyReviewed extends Component
         return collect($games)->map(function ($game) {
             return collect($game)->merge([
                 'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']),
-                'rating' => isset($game['rating']) ? round($game['rating']) . '%' : null,
+                'rating' => isset($game['rating']) ? round($game['rating']) : null,
                 'platforms' => collect($game['platforms'])->pluck('abbreviation')->filter()->implode(', ')
             ]);
         })->toArray();
