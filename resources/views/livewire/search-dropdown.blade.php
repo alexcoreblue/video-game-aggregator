@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative" x-data="{ isVisible: true }">
     <input wire:model.debounce.300ms="search" type="text" class="bg-gray-800 text-sm rounded-full focus:outline-none focus:shadow-outline w-64 px-3 py-1 pl-10" placeholder="Search...">
     <div class="absolute top-0 flex items-center ml-2 mt-1">
         <svg class="fill-current text-gray-400 w-6" xmlns="http://www.w3.org/2000/svg">
@@ -9,7 +9,7 @@
     <div wire:loading class="spinner top-0 right-0 mr-4 mt-4" style="position: absolute"></div>
 
     @if (strlen($search) >= 2)
-    <div class="absolute z-50 bg-gray-800 text-sm rounded w-64 mt-2">
+    <div class="absolute z-50 bg-gray-800 text-sm rounded w-64 mt-2" x-show="isVisible">
         @if (count($searchResults) > 0)
         <ul>
             @foreach ($searchResults as $game)

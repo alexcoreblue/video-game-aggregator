@@ -7,6 +7,7 @@
     <title>Laracasts Video Games</title>
     <link rel="stylesheet" href="/css/main.css" />
     @livewireStyles
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -25,9 +26,9 @@
             </div>
             <div class="flex items-center mt-6 lg:mt-0">
                 <livewire:search-dropdown>
-                <div class="ml-6">
-                    <a href="#"><img src="/avatar.jpg" alt="avatar" class="rounded-full w-8"></a>
-                </div>
+                    <div class="ml-6">
+                        <a href="#"><img src="/avatar.jpg" alt="avatar" class="rounded-full w-8"></a>
+                    </div>
             </div>
         </nav>
     </header>
